@@ -145,6 +145,10 @@ $.fn.quizer = function(options) {
 			position: 'fixed',
 			'z-index': 99999,
 			'background-color': getData(['overlay','bgColor']),
+			'background-image': 'url(' + getData(['overlay','img']) + ')',
+			'background-repeat': 'no-repeat',
+			'background-position': 'center center',
+			'background-size': '100px',
 			width: '100%',
 			height: getWindowHeight() + 'px'
 		});

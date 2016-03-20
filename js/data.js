@@ -1,7 +1,7 @@
 var dataObj = {
 	overlay: {
-		bgColor: 'black',
-		img: '../img/loading.jpg'
+		bgColor: 'white',
+		img: 'imgs/loading.jpg'
 	},
 	qNa: [],
 	results: {}
