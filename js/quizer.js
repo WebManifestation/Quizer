@@ -76,7 +76,7 @@ $.fn.quizer = function(options) {
 		$mainWrapper.css({
 			background: 'coral',
 			width: '100%',
-			'min-height': getWindowHeight() + 'px'
+			'min-height': '100%'
 		});
 
 
