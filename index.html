@@ -7,7 +7,8 @@
         <title>Quizer - Avatar</title>
         <link rel="stylesheet" href="css/style.css">
 
-        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="js/jquery-1.11.3.min.js"></script>
+        <script src="js/data.js"></script>
         <script src="js/quizer.js"></script>
     </head>
     <body>
@@ -21,7 +22,7 @@
 
 		<script type="text/javascript">
 			(function($) {
-				$('.container').quizer();
+				$('.container').quizer({ data: dataObj });
 			})(jQuery);
 		</script>
     </body>
