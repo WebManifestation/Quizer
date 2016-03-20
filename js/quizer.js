@@ -45,6 +45,7 @@ $.fn.quizer = function(options) {
 		$(window).resize(function() {
 
 			$this.fixHeight();
+			$overlay.fixHeight();
 		});
 
 
@@ -61,6 +62,13 @@ $.fn.quizer = function(options) {
 		});
 
 		$this['fixHeight'] = fixHeight;
+
+
+
+
+
+
+
 
 
 		var $mainWrapper = $('<div/>', {class: 'main-wrapper'});
@@ -93,6 +101,8 @@ $.fn.quizer = function(options) {
 			width: '100%',
 			height: getWindowHeight() + 'px'
 		});
+
+		$overlay['fixHeight'] = fixHeight;
 
 		$overlay.click(function() {
 			$overlay.fadeOut();
