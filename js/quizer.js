@@ -103,6 +103,10 @@ $.fn.quizer = function(options) {
 			$overlay.fixHeight();
 		});
 
+		window.onbeforeunload = function() {
+			
+			$overlay.toggle('close');
+		}
 
 		var $this = $(this);
 
@@ -118,15 +122,22 @@ $.fn.quizer = function(options) {
 				$img['loadImg'] = loadImg;
 
 				$img.loadImg(function() {
-					var loadedArray = [];
+					var loadedArray = [],
+						count = 0;
 					setting.loadedImages[key] = true;
 					$.each(setting.loadedImages, function(key, loaded) {
 						// console.log(key, loaded);
 						loadedArray.push(loaded);
+						if (loaded) {
+							count++;
+						};
 					});
 
+					$overlay.child.loading.setText(count);
 
 					// console.log($.inArray(false, loadedArray));
+
+
 
 					if ($.inArray(false, loadedArray) == -1 ) {
 						console.log('all images loaded');
@@ -157,7 +168,7 @@ $.fn.quizer = function(options) {
 
 		var $mainWrapper = $('<div/>', {class: 'main-wrapper'});
 
-		$mainWrapper.html("Nunc luctus eros tortor, nec consequat ex lacinia non. Sed dictum nulla in ipsum scelerisque, non dignissim ligula iaculis. In vulputate ipsum at lacus faucibus, sit amet tincidunt sem hendrerit. Curabitur non vulputate arcu, sit amet tempor risus. Etiam vel lacus eget nibh eleifend facilisis. Mauris tincidunt vulputate felis, vitae commodo mauris aliquam ac. Donec maximus finibus urna vitae sodales. Pellentesque at gravida lectus. Mauris in nisi at leo elementum scelerisque et sit amet enim. Proin augue felis, pulvinar at efficitur nec, interdum a massa.");
+		$mainWrapper.html("Nunc <a href='https://www.google.co.in'>luctus</a> eros tortor, nec consequat ex lacinia non. Sed dictum nulla in ipsum scelerisque, non dignissim ligula iaculis. In vulputate ipsum at lacus faucibus, sit amet tincidunt sem hendrerit. Curabitur non vulputate arcu, sit amet tempor risus. Etiam vel lacus eget nibh eleifend facilisis. Mauris tincidunt vulputate felis, vitae commodo mauris aliquam ac. Donec maximus finibus urna vitae sodales. Pellentesque at gravida lectus. Mauris in nisi at leo elementum scelerisque et sit amet enim. Proin augue felis, pulvinar at efficitur nec, interdum a massa.");
 		$mainWrapper.append("Nunc luctus eros tortor, nec consequat ex lacinia non. Sed dictum nulla in ipsum scelerisque, non dignissim ligula iaculis. In vulputate ipsum at lacus faucibus, sit amet tincidunt sem hendrerit. Curabitur non vulputate arcu, sit amet tempor risus. Etiam vel lacus eget nibh eleifend facilisis. Mauris tincidunt vulputate felis, vitae commodo mauris aliquam ac. Donec maximus finibus urna vitae sodales. Pellentesque at gravida lectus. Mauris in nisi at leo elementum scelerisque et sit amet enim. Proin augue felis, pulvinar at efficitur nec, interdum a massa.");
 		$mainWrapper.append("Nunc luctus eros tortor, nec consequat ex lacinia non. Sed dictum nulla in ipsum scelerisque, non dignissim ligula iaculis. In vulputate ipsum at lacus faucibus, sit amet tincidunt sem hendrerit. Curabitur non vulputate arcu, sit amet tempor risus. Etiam vel lacus eget nibh eleifend facilisis. Mauris tincidunt vulputate felis, vitae commodo mauris aliquam ac. Donec maximus finibus urna vitae sodales. Pellentesque at gravida lectus. Mauris in nisi at leo elementum scelerisque et sit amet enim. Proin augue felis, pulvinar at efficitur nec, interdum a massa.");
 
@@ -178,6 +189,30 @@ $.fn.quizer = function(options) {
 
 
 		var $overlay = $('<div/>',{class: 'overlay'});
+		$overlay['child'] = {};
+
+		$overlay.child['loading'] = $('<div/>',{class: 'overlay-loading-wrapper'})
+									.css({
+										position: 'absolute',
+										bottom: 0,
+									    left: 0,
+									    'font-size': '70%',
+									    padding: '5px 10px',
+									});
+		$overlay.child.loading['setText'] = function(count) {
+
+												if ( typeof count == 'undefined') {
+													count = 0;
+												}
+
+												if (count == setting.allImgsList.length ) {
+													this.text(getData(['overlay','placeholder']));
+												} else {
+
+													this.text('Loaded '+ count +' of ' + setting.allImgsList.length + ' images');
+												}
+
+											};
 
 		// console.log(getData(['overlay']));
 		$overlay['fixHeight'] = fixHeight;
@@ -218,6 +253,9 @@ $.fn.quizer = function(options) {
 		$overlayImg.loadImg(function() {
 			$overlay.css({ 'background-image': 'url(' + getData(['overlay','img']) + ')' });
 		});
+
+		$overlay.append($overlay.child.loading);
+		$overlay.child.loading.setText();
 
 
 

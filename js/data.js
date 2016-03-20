@@ -1,7 +1,8 @@
 var dataObj = {
 	overlay: {
 		bgColor: 'white',
-		img: 'imgs/loading.jpg'
+		img: 'imgs/loading.jpg',
+		placeholder: 'Avatar - The last airbender'
 	},
 	qNa: [
 		{
