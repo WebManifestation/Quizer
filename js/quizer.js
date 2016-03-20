@@ -125,10 +125,10 @@ $.fn.quizer = function(options) {
 		$overlay['toggle'] = function(action) {
 									switch(action) {
 										case 'open':
-											this.setAnimation('translateY(-1700px)', '1s');
+											this.setAnimation('translateX(-1700px)', '1s');
 											break;
 										case 'close':
-											this.setAnimation('translateY(0)', '0.5s');
+											this.setAnimation('translateX(0)', '0.5s');
 											break;
 									}
 
