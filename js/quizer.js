@@ -39,6 +39,32 @@ $.fn.quizer = function(options) {
 		var fixHeight = function() {
 							this.css({ height: getWindowHeight() + 'px' });
 							console.log('fixHeight', this);
+
+							return this;
+						},
+
+			setAnimation = function(transformString, time) {
+
+							this.css({
+								'-moz-transition': 'all ' + time + ' ease',
+								'-o-transition': 'all ' + time + ' ease',
+								'-webkit-transition': 'all ' + time + ' ease',
+								transition: 'all ' + time + ' ease',
+							});
+
+							this.css({
+								'-moz-transform': transformString,
+								'-o-transform': transformString,
+								'-webkit-transform': transformString,
+								transform: transformString,
+							});
+
+							return this;
+
+						},
+			getHeight = function() {
+
+							return this.height();
 						};
 
 
@@ -51,6 +77,8 @@ $.fn.quizer = function(options) {
 
 		var $this = $(this);
 
+		$this['fixHeight'] = fixHeight;
+
 		$this.css({
 			top: 0,
 			left: 0,
@@ -60,10 +88,6 @@ $.fn.quizer = function(options) {
 			width: '100%',
 			height: getWindowHeight() + 'px'
 		});
-
-		$this['fixHeight'] = fixHeight;
-
-
 
 
 
@@ -78,7 +102,7 @@ $.fn.quizer = function(options) {
 		$mainWrapper.append("Nunc luctus eros tortor, nec consequat ex lacinia non. Sed dictum nulla in ipsum scelerisque, non dignissim ligula iaculis. In vulputate ipsum at lacus faucibus, sit amet tincidunt sem hendrerit. Curabitur non vulputate arcu, sit amet tempor risus. Etiam vel lacus eget nibh eleifend facilisis. Mauris tincidunt vulputate felis, vitae commodo mauris aliquam ac. Donec maximus finibus urna vitae sodales. Pellentesque at gravida lectus. Mauris in nisi at leo elementum scelerisque et sit amet enim. Proin augue felis, pulvinar at efficitur nec, interdum a massa.");
 
 		$mainWrapper.click(function() {
-			$overlay.fadeIn();
+			$overlay.toggle('close');
 		});
 
 		$mainWrapper.css({
@@ -88,9 +112,32 @@ $.fn.quizer = function(options) {
 		});
 
 
+
+
+
+
+
 		var $overlay = $('<div/>',{class: 'overlay'});
 
 		// console.log(getData(['overlay']));
+		$overlay['fixHeight'] = fixHeight;
+		$overlay['setAnimation'] = setAnimation;
+		$overlay['toggle'] = function(action) {
+									switch(action) {
+										case 'open':
+											this.setAnimation('translateY(-1700px)', '1s');
+											break;
+										case 'close':
+											this.setAnimation('translateY(0)', '0.5s');
+											break;
+									}
+
+									return this;
+								};
+
+		$overlay.click(function() {
+			$overlay.toggle('open');
+		});
 
 		$overlay.css({
 			top: 0,
@@ -102,11 +149,6 @@ $.fn.quizer = function(options) {
 			height: getWindowHeight() + 'px'
 		});
 
-		$overlay['fixHeight'] = fixHeight;
-
-		$overlay.click(function() {
-			$overlay.fadeOut();
-		});
 
 
 
