@@ -187,61 +187,90 @@ $.fn.quizer = function(options) {
 		'min-height': '100%'
 	});
 
-	var Div = function(options) {};
-	Div.prototype = $('<div/>');
-	Div.prototype.getData = function(array) {
 
-		var data = null,
-			arrayCount = array.length;
-			obj = setting.data;
 
-		if($.isArray(array) && arrayCount > 1) {
-			$.each(array, function(i,val) {
 
-				if (arrayCount-i != 1) {
 
-					data = obj[val];
-				} else {
-					
-					data = data[val];
-				};	
-			});
-		} else {
-			data = obj[array[0]];
-		};
 
-		return data;
+	function imageLoadCallb(src, callback) {
+
+		var $img = $('<img/>').attr('src', src );
+		$img.load(function() {
+			if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+	            return 'broken image!';
+	        } else {
+	        	callback(src);
+	        }
+		});
+
+		return;
 	};
 
-
-	var Placeholder = function(options) {
-		var settings = $.extend({
-			text: 'Default text',
-			color: '#000000'
-		}, options);
+	var TextElem = function(placeholder, classes) {
+		this.placeholder = placeholder;
+		this.elem = $('<div/>');
+		this.elem
+		.addClass(classes)
+		.text(placeholder);
 	};
-	Placeholder.prototype = new Div();
+	TextElem.prototype.updateText = function(newText) {
+		this.elem.text(newText);
+	}
 
 
-	var Overlay = function() {
-		this.init();
+	var Overlay = function(tag, classes) {
+
+		this.elem = $('<'+ tag +'/>');
+		$elem = this.elem;
+		$elem
+		.addClass(classes)
+		.css({
+			top: 0,
+			left: 0,
+			position: 'fixed',
+			'z-index': 99999,
+			'background-color': getData(['overlay','bgColor']),
+			'background-repeat': 'no-repeat',
+			'background-position': 'center center',
+			'background-size': '100px',
+			width: '100%',
+			height: getWindowHeight() + 'px'
+		});
+
+		imageLoadCallb(getData(['overlay','img']), function(img) {
+			$elem.css({'background-image': 'url(' + img + ')' });
+		});
+
+
+		this.loading = new TextElem('Loading', 'overlay-loading-wrapper');
+		// this.loading = $('<div/>');
+		this.loading.elem
+		.css({
+			position: 'absolute',
+			bottom: 0,
+		    left: 0,
+		    'font-size': '70%',
+		    padding: '5px 10px',
+		})
+		.appendTo(this.elem);
+
+		console.log(this.loading.elem);
+		// this.loading.updateText();
+
 	};
-	Overlay.prototype = new Div();
-	Overlay.prototype.placeholder = new Placeholder();
-	Overlay.prototype.init = function() {
-
-		var $this = this;
-
-		$this.css({ color: 'red'});
-
-		$this.append($this.placeholder);
-		$mainWrapper.append($this);
-
-		console.log($this.html());
-		console.log($this.placeholder);
+	// $Overlay.prototype = $.extend({},$Elem.prototype);
+	Overlay.prototype.open = function() {
+		// console.log(this.elem);
+		this.elem.fadeOut();
 	};
 
-	var test = new Overlay();
+	var $test = new Overlay('div', 'overlay test');
+
+	// $test.html('test');
+	$this.append($test.elem);
+
+	setTimeout(function() { $test.open() }, 1000);
+	setTimeout(function() { $test.loading.updateText('test') }, 2000);
 
 
 	var $overlay = $('<div/>',{class: 'overlay'});
@@ -321,7 +350,7 @@ $.fn.quizer = function(options) {
 
 
 
-	$this.append($mainWrapper).append($overlay);
+	$this.append($mainWrapper);//.append($overlay);
 
 	$this.loadAllImages(function() {
 		$overlay.toggle('open');
