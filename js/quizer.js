@@ -111,6 +111,7 @@ $.fn.quizer = function(options) {
 	window.onbeforeunload = function() {
 		
 		$overlay.toggle('close');
+		$test.close();
 	}
 
 	var $this = $(this);
@@ -262,6 +263,10 @@ $.fn.quizer = function(options) {
 	Overlay.prototype.open = function() {
 		// console.log(this.elem);
 		this.elem.fadeOut();
+	};
+	Overlay.prototype.close = function() {
+		// console.log(this.elem);
+		this.elem.fadeIn();
 	};
 
 	var $test = new Overlay('div', 'overlay test');
