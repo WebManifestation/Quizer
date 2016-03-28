@@ -193,7 +193,7 @@ $.fn.quizer = function(options) {
 
 
 
-	function imageLoadCallb(src, callback) {
+	function imageLoadCall(src, callback) {
 
 		var $img = $('<img/>').attr('src', src );
 		$img.load(function() {
@@ -238,7 +238,7 @@ $.fn.quizer = function(options) {
 			height: getWindowHeight() + 'px'
 		});
 
-		imageLoadCallb(getData(['overlay','img']), function(img) {
+		imageLoadCall(getData(['overlay','img']), function(img) {
 			$elem.css({'background-image': 'url(' + img + ')' });
 		});
 
